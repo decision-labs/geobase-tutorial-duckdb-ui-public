@@ -1,10 +1,10 @@
 # Geobase Video Tutorial: Building a Geospatial Data Visualization App
 
-This repository contains the code for a tutorial that demonstrates how to build a geospatial data visualization application using DuckDB, MotherDuck, and GeoBase. The tutorial is available on the Geobase YouTube channel.
+This repository contains the code for a tutorial that demonstrates how to build a geospatial data visualization application using DuckDB, MotherDuck, and Geobase. The tutorial is available on the [Geobase YouTube channel](https://youtube.com/@geobase).
 
 ## 🎥 Tutorial Video
 
-Watch the tutorial video on the Geobase YouTube channel to learn how to build this application step by step.
+Watch the tutorial video on the [Geobase YouTube channel](https://youtube.com/@geobase) to learn how to build this application step by step.
 
 ## 🚀 Features
 
