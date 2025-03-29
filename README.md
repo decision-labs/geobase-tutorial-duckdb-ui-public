@@ -6,6 +6,35 @@ This repository contains the code for a tutorial that demonstrates how to build 
 
 Watch the tutorial video on the [Geobase YouTube channel](https://youtube.com/@geobase) to learn how to build this application step by step.
 
+## 🚀 Getting Started
+
+1. Clone this repository
+2. Navigate to the `code` directory:
+   ```bash
+   cd code
+   ```
+3. Install the required dependencies:
+   ```bash
+   npm install -g serve
+   ```
+4. Set up your Geobase credentials:
+   - Get your Geobase project reference and anon API key from your Geobase dashboard
+   - Update the credentials in `js/map.js`:
+     ```javascript
+     const API_KEY = "your-anon-api-key";
+     const GEOBASE_URL = "https://your-project-ref.geobase.app";
+     ```
+5. Set up the database backend:
+   - Follow the instructions in `docs/duckdb-ui.md` to:
+     - Load the cardiovascular disease data into DuckDB
+     - Create the necessary backend functions
+     - Set up MotherDuck for cloud storage
+6. Start the development server:
+   ```bash
+   npx serve .
+   ```
+7. Open your browser and navigate to `http://localhost:3000`
+
 ## 🚀 Features
 
 This application demonstrates:
@@ -52,30 +81,6 @@ Data source attribution: eMOTIONAL Cities project, funded by the European Union'
 │   └── index.html          # Main application page
 └── README.md               # This file
 ```
-
-## 🚀 Getting Started
-
-1. Clone this repository
-2. Navigate to the `code` directory:
-   ```bash
-   cd code
-   ```
-3. Install the required dependencies:
-   ```bash
-   npm install -g serve
-   ```
-4. Set up your Geobase credentials:
-   - Get your Geobase project reference and anon API key from your Geobase dashboard
-   - Update the credentials in `js/map.js`:
-     ```javascript
-     const API_KEY = "your-anon-api-key";
-     const GEOBASE_URL = "https://your-project-ref.geobase.app";
-     ```
-5. Start the development server:
-   ```bash
-   npx serve .
-   ```
-6. Open your browser and navigate to `http://localhost:3000`
 
 ## 📝 License
 

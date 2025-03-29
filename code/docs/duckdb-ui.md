@@ -50,7 +50,11 @@ limit 100;
 select count(*) from hex350_grid_cardio_1920;
 ```
 
+----
 
+Create the duckdb_fdw server and connect to the motherduck database. Follow the instructions in the video tutorial.
+
+After you have the table loaded from motherduck into geobase you can run the following queries to create the backend for the frontend.
 
 ```sql
 create materialized view
