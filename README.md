@@ -27,13 +27,15 @@ This application demonstrates:
 
 - **DuckDB**: For local data processing and analysis
 - **MotherDuck**: For cloud-based data storage and collaboration
-- **GeoBase**: For geospatial data visualization and vector tile serving
+- **Geobase**: For geospatial data visualization and vector tile serving
 - **MapLibre GL JS**: For interactive map rendering
 - **Chart.js**: For statistical visualizations
 
 ## 📊 Dataset
 
-The application visualizes London's Cardiovascular Disease Prevalence data, which is part of the eMOTIONAL Cities project (funded by the European Union's Horizon 2020 research and innovation programme). The data shows the weighted prevalence (WPREV) of cardiovascular disease across London using H3 hexagonal grid cells.
+This application visualizes London's Cardiovascular Disease Prevalence data from the eMOTIONAL Cities project (funded by the European Union's Horizon 2020 research and innovation programme). The data shows the weighted prevalence (WPREV) of cardiovascular disease across London using H3 hexagonal grid cells.
+
+Data source attribution: eMOTIONAL Cities project, funded by the European Union's Horizon 2020 research and innovation programme.
 
 ## 🏗️ Project Structure
 
@@ -62,8 +64,8 @@ The application visualizes London's Cardiovascular Disease Prevalence data, whic
    ```bash
    npm install -g serve
    ```
-4. Set up your GeoBase credentials:
-   - Get your GeoBase project reference and anon API key from your GeoBase dashboard
+4. Set up your Geobase credentials:
+   - Get your Geobase project reference and anon API key from your Geobase dashboard
    - Update the credentials in `js/map.js`:
      ```javascript
      const API_KEY = "your-anon-api-key";
@@ -77,7 +79,11 @@ The application visualizes London's Cardiovascular Disease Prevalence data, whic
 
 ## 📝 License
 
-This project is part of the eMOTIONAL Cities project and is available under the project's license terms.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Data Attribution
+
+The cardiovascular disease prevalence data used in this visualization is sourced from the eMOTIONAL Cities project, which is funded by the European Union's Horizon 2020 research and innovation programme.
 
 ## 🙏 Acknowledgments
 
