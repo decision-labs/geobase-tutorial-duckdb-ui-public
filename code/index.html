@@ -1,0 +1,296 @@
+<html>
+<head>
+  <title>London Cardiovascular Disease Prevalence Map</title>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"
+    ></script>
+    <link
+      href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css"
+      rel="stylesheet"
+    />
+  <!-- Add Supabase JS library -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <!-- Add Chart.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Add Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/map.css" />
+</head>
+
+<body>
+  <div id="map"></div>
+  
+  <!-- Add header -->
+  <div class="map-header">
+    <h1 class="map-title">London Cardiovascular Disease Map</h1>
+    <div class="map-controls">
+      <button class="map-button" id="info-toggle">About</button>
+      <button class="map-button" id="stats-toggle">Statistics</button>
+        <button class="map-button" id="diff-view-toggle">
+          Difference View
+        </button>
+      <button class="map-button" id="view-3d-toggle">3D View</button>
+    </div>
+  </div>
+  
+  <!-- Add dataset info panel -->
+  <div id="info-panel">
+    <h2>About This Map</h2>
+    
+    <div class="data-source">
+        <p>
+          <strong>Data Source:</strong>
+          <a
+            href="https://emotional.byteroad.net/collections/ec_catalog/items/hex350_grid_cardio_1920?f=json"
+            target="_blank"
+            >London Cardiovascular Disease Dataset</a
+          >
+        </p>
+        <p>
+          This dataset is part of the <a href="https://emotionalcities-h2020.eu/" target="_blank">eMOTIONAL Cities</a> project 🇪🇺, 
+          funded by the European Union's Horizon 2020 research and innovation programme.
+        </p>
+        <p class="data-description">
+          This visualization displays the weighted prevalence (WPREV) of
+          cardiovascular disease across London using H3 hexagonal grid cells.
+          WPREV is a statistical measure that represents the prevalence of
+          cardiovascular conditions weighted by population factors. Higher WPREV
+          values indicate areas with higher prevalence of cardiovascular disease
+          relative to the population.
+        </p>
+    </div>
+    
+    <h3>How to Use This Map</h3>
+    <ul class="info-list">
+      <li>Hover over hexagons to see exact WPREV values</li>
+        <li>
+          Use the <strong>Statistics</strong> panel to view data distribution
+        </li>
+      <li>Toggle between global and current view statistics</li>
+        <li>
+          Use <strong>Difference View</strong> to see areas with higher/lower
+          prevalence than average
+        </li>
+    </ul>
+    
+    <h3>Understanding the Data</h3>
+    <p>The map uses a color gradient where:</p>
+    <ul class="info-list">
+      <li><strong>Purple/Blue</strong>: Lower WPREV values</li>
+      <li><strong>Green</strong>: Medium WPREV values</li>
+      <li><strong>Yellow</strong>: Higher WPREV values</li>
+    </ul>
+      <p>
+        In Difference View, red areas have higher prevalence than the London
+        average, while blue areas have lower prevalence.
+      </p>
+  </div>
+  
+  <!-- Add map difference toggle -->
+    <div class="map-diff-toggle" style="display: none">
+    <label class="toggle-switch">
+        <input
+          type="checkbox"
+          id="show-diff-toggle"
+          onchange="toggleDifferenceView()"
+        />
+      <span class="toggle-slider"></span>
+    </label>
+    <label for="show-diff-toggle">Show Difference View</label>
+  </div>
+  
+    <!-- Update the results panel -->
+    <div id="results-panel">
+      <div class="panel-header">
+        <h2>Results</h2>
+      </div>
+    <pre id="results-output"></pre>
+  </div>
+  
+  <!-- Add stats panel -->
+  <div id="stats-panel" class="panel">
+    <div class="panel-header">
+      <h2>Statistics</h2>
+    </div>
+    <div class="panel-content">
+      <div class="stats-buttons">
+          <button
+            id="global-stats-btn"
+            class="stats-button active"
+            onclick="switchToGlobalStats()"
+          >
+            London (Global)
+          </button>
+          <button
+            id="current-stats-btn"
+            class="stats-button"
+            onclick="switchToCurrentStats()"
+          >
+            Current View
+          </button>
+      </div>
+      
+      <div id="stats-chart-container">
+        <canvas id="stats-chart"></canvas>
+      </div>
+      
+      <!-- Add container for the new stats comparison -->
+      <div id="stats-comparison" class="mt-4"></div>
+      
+      <!-- Add heatmap comparison section -->
+      <div class="heatmap-comparison mt-4">
+        <div class="heatmap-title">WPREV Distribution Comparison</div>
+        
+        <!-- Explanation text -->
+        <p class="heatmap-explanation">
+            Markers show where key statistics fall on the WPREV scale. Blue =
+            Global (G), Green = Current (C).
+        </p>
+        
+        <!-- Simplified structure with clear marker positioning -->
+        <div class="heatmap-wrapper">
+          <!-- Marker container positioned above the scale -->
+          <div id="heatmap-container" class="marker-container"></div>
+          
+          <!-- Color scale -->
+          <div class="heatmap-scale"></div>
+          
+          <!-- Min/max labels -->
+          <div class="heatmap-labels">
+            <span id="heatmap-min">0.16</span>
+            <span id="heatmap-max">3.50</span>
+          </div>
+        </div>
+        
+        <!-- Legend -->
+        <div class="heatmap-legend">
+          <div class="heatmap-legend-item">
+              <div
+                class="heatmap-legend-color"
+                style="background-color: rgba(33, 150, 243, 0.8)"
+              ></div>
+            <span>Global (G)</span>
+          </div>
+          <div class="heatmap-legend-item">
+              <div
+                class="heatmap-legend-color"
+                style="background-color: rgba(76, 175, 80, 0.8)"
+              ></div>
+            <span>Current (C)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add comparison view -->
+    <div id="comparison-view" style="display: none">
+    <h3>Comparison View</h3>
+    <div class="stats-comparison">
+      <div class="comparison-header">
+        <div class="comparison-label">Statistic</div>
+        <div class="comparison-label">London (Global)</div>
+        <div class="comparison-label">Selected Area</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-label">Min</div>
+        <div class="comparison-value" id="global-min"></div>
+        <div class="comparison-value" id="current-min"></div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-label">Max</div>
+        <div class="comparison-value" id="global-max"></div>
+        <div class="comparison-value" id="current-max"></div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-label">Mean</div>
+        <div class="comparison-value" id="global-mean"></div>
+        <div class="comparison-value" id="current-mean"></div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-label">Median</div>
+        <div class="comparison-value" id="global-median"></div>
+        <div class="comparison-value" id="current-median"></div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-label">Std Dev</div>
+        <div class="comparison-value" id="global-stddev"></div>
+        <div class="comparison-value" id="current-stddev"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add difference legend -->
+    <div id="map-diff-info" style="display: none">
+      <p>
+        Showing difference between current view and global statistics. Red areas
+        have higher weighted prevalence (WPREV) of cardiovascular disease than
+        the London average, blue areas have lower weighted prevalence.
+      </p>
+  </div>
+  
+    <!-- Add modal structure (add this before the closing body tag) -->
+    <div id="info-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>About This Map 🇪🇺</h2>
+          <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="data-source">
+            <p>
+              <strong>Data Source:</strong>
+              <a
+                href="https://emotional.byteroad.net/collections/ec_catalog/items/hex350_grid_cardio_1920?f=html"
+                target="_blank"
+                >London Cardiovascular Disease Dataset</a
+              >
+            </p>
+            <p>
+              This dataset is part of the <a href="https://emotionalcities-h2020.eu/" target="_blank">eMOTIONAL Cities</a> project, 
+              funded by the European Union's Horizon 2020 research and innovation programme. 🇪🇺
+            </p>
+            <p class="data-description">
+              This visualization displays the weighted prevalence (WPREV) of
+              cardiovascular disease across London using H3 hexagonal grid cells.
+              WPREV is a statistical measure that represents the prevalence of
+              cardiovascular conditions weighted by population factors. Higher WPREV
+              values indicate areas with higher prevalence of cardiovascular disease
+              relative to the population.
+            </p>
+          </div>
+          
+          <h3>How to Use This Map</h3>
+          <ul class="info-list">
+            <li>Hover over hexagons to see exact WPREV values</li>
+            <li>Use the <strong>Statistics</strong> panel to view data distribution</li>
+            <li>Toggle between global and current view statistics</li>
+            <li>Use <strong>Difference View</strong> to see areas with higher/lower prevalence than average</li>
+          </ul>
+          
+          <h3>Understanding the Data</h3>
+          <p>The map uses a color gradient where:</p>
+          <ul class="info-list">
+            <li><strong>Purple/Blue</strong>: Lower WPREV values</li>
+            <li><strong>Green</strong>: Medium WPREV values</li>
+            <li><strong>Yellow</strong>: Higher WPREV values</li>
+          </ul>
+          <p>
+            In Difference View, red areas have higher prevalence than the London
+            average, while blue areas have lower prevalence.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/map.js"></script>
+</body>
+</html>

@@ -1,0 +1,954 @@
+/* Base styles and typography */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: #333;
+  line-height: 1.5;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  background-color: #f8f9fa;
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #1a1a1a;
+}
+
+h3 {
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+}
+
+h4 {
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+}
+
+p {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+/* Dataset info panel */
+#info-panel {
+  display: none;
+}
+
+.dataset-info {
+  font-size: 13px;
+  color: #555;
+}
+
+.dataset-info a {
+  color: #2196f3;
+  text-decoration: none;
+}
+
+.dataset-info a:hover {
+  text-decoration: underline;
+}
+
+.dataset-source {
+  font-size: 11px;
+  color: #777;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* Map and panels */
+#map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Prevent map overflow */
+  top: 0;
+  left: 0;
+}
+
+#results-panel,
+#stats-panel {
+  position: absolute;
+  width: 320px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  z-index: 1;
+}
+
+#results-panel {
+  position: absolute;
+  bottom: 30px;  /* Changed from top: 60px to bottom: 30px */
+  left: 16px;    /* Changed from right: 16px to left: 16px */
+  width: 240px;  /* Reduced from 320px */
+  background-color: white;
+  border-radius: 8px;
+  padding: 12px;  /* Reduced from 16px */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  max-height: 120px;  /* Added max-height */
+  overflow-y: auto;
+}
+
+#results-panel .panel-header {
+  margin-bottom: 8px;  /* Reduced from 16px */
+}
+
+#results-panel .panel-header h2 {
+  font-size: 14px;  /* Reduced from 18px */
+  margin: 0;
+}
+
+#results-panel pre {
+  margin: 0;
+  font-size: 12px;  /* Reduced from 13px */
+  padding: 8px;     /* Reduced from 12px */
+  background-color: #f5f7fa;
+  border-radius: 4px;
+  border: 1px solid #e0e4e8;
+  max-height: none;  /* Remove max-height from pre */
+}
+
+#stats-panel {
+  top: 60px; /* Position below header */
+  left: 16px;
+  max-width: 300px; /* Ensure the panel doesn't exceed its container width */
+  max-height: calc(100vh - 80px); /* Account for header */
+}
+
+/* Buttons */
+#query-button,
+#inspect-button {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+#query-button:hover,
+#inspect-button:hover {
+  opacity: 0.9;
+}
+
+#inspect-button {
+  background-color: #2196f3;
+}
+
+/* Code and data display */
+pre {
+  font-family: "Roboto Mono", monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #f5f7fa;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e0e4e8;
+}
+
+/* Chart and stats */
+.chart-container {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  margin-top: 16px;
+  max-width: 100%; /* Ensure chart doesn't overflow */
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: #2196f3;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Legend */
+#map-legend {
+  position: absolute;
+  top: 60px;
+  right: 16px;
+  left: auto;
+  padding: 16px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  max-width: 250px;
+  box-sizing: border-box; /* Include padding in width calculation */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Stats toggle buttons */
+.stats-toggle {
+  display: flex;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #e0e4e8;
+}
+
+.stats-toggle-btn {
+  flex: 1;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  background-color: #f5f7fa;
+  color: #666;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stats-toggle-btn.active {
+  background-color: #2196f3;
+  color: white;
+}
+
+.stats-toggle-btn:hover:not(.active) {
+  background-color: #e0e4e8;
+}
+
+/* Add styles for stats-buttons and stats-button */
+.stats-buttons {
+  display: flex;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #e0e4e8;
+}
+
+.stats-button {
+  flex: 1;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  background-color: #f5f7fa;
+  color: #666;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stats-button.active {
+  background-color: #2196f3;
+  color: white;
+}
+
+.stats-button:hover:not(.active) {
+  background-color: #e0e4e8;
+}
+
+/* Panel header and close button */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.close-button:hover {
+  color: #333;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.stats-description {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+/* Stats comparison view */
+.stats-comparison {
+  margin-top: 16px;
+  border: 1px solid #e0e4e8;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 100%; /* Ensure comparison view doesn't overflow */
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.comparison-header {
+  display: flex;
+  background-color: #f5f7fa;
+  border-bottom: 1px solid #e0e4e8;
+  width: 100%;
+}
+
+.comparison-header div {
+  flex: 1;
+  padding: 8px 12px;
+  font-weight: 500;
+  font-size: 13px;
+  text-align: center;
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show ellipsis for overflowing text */
+}
+
+.comparison-header div:first-child {
+  border-right: 1px solid #e0e4e8;
+}
+
+.comparison-row {
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+  width: 100%;
+}
+
+.comparison-row:last-child {
+  border-bottom: none;
+}
+
+.comparison-label {
+  width: 80px;
+  min-width: 80px; /* Ensure minimum width */
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #666;
+  background-color: #f9f9f9;
+  border-right: 1px solid #f0f0f0;
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show ellipsis for overflowing text */
+}
+
+.comparison-values {
+  display: flex;
+  flex: 1;
+  width: calc(100% - 80px); /* Ensure it takes remaining width */
+  min-width: 180px; /* Ensure minimum width for values */
+}
+
+.comparison-value {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  position: relative;
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show ellipsis for overflowing text */
+  padding-right: 45px; /* Add space for the indicator */
+  font-family: "Inter", sans-serif;
+}
+
+.comparison-value:first-child {
+  border-right: 1px solid #f0f0f0;
+}
+
+.comparison-indicator {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.05);
+  white-space: nowrap;
+  min-width: 35px;
+  text-align: right;
+  font-family: "Inter", sans-serif;
+}
+
+.higher {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.lower {
+  color: #f44336;
+  font-weight: 600;
+}
+
+.comparison-button {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 8px 16px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.comparison-button:hover {
+  background-color: #1976d2;
+}
+
+/* Heatmap comparison - completely revised */
+.heatmap-comparison {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #e0e4e8;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.heatmap-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* New wrapper for better positioning */
+.heatmap-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 16px;
+  padding-top: 60px; /* Space for markers above */
+  padding-bottom: 30px; /* Space for markers below */
+}
+
+/* Marker container */
+.marker-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+/* Scale bar */
+.heatmap-scale {
+  height: 20px;
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    rgb(68, 1, 84),
+    rgb(59, 82, 139),
+    rgb(33, 144, 141),
+    rgb(93, 201, 99),
+    rgb(253, 231, 37)
+  );
+  border-radius: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Min/max labels */
+.heatmap-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #666;
+  width: 100%;
+}
+
+/* Completely revised marker styles */
+.heatmap-marker {
+  position: absolute;
+  width: 2px; /* Thinner for subtlety */
+  height: 24px; /* Slightly shorter */
+  transform: translateX(-50%);
+  z-index: 20;
+  border-radius: 1px;
+}
+
+/* Position markers relative to the scale */
+.heatmap-marker.global {
+  top: 30px; /* Position above the scale */
+  background-color: rgba(33, 150, 243, 0.8); /* Semi-transparent blue */
+  box-shadow: none;
+}
+
+.heatmap-marker.current {
+  top: 90px; /* Position below the scale */
+  background-color: rgba(76, 175, 80, 0.8); /* Semi-transparent green */
+  box-shadow: none;
+}
+
+/* Marker labels */
+.heatmap-marker::after {
+  content: attr(data-value);
+  position: absolute;
+  white-space: nowrap;
+  color: #555;
+  font-size: 10px;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2px 4px;
+  border-radius: 2px;
+  box-shadow: none;
+  z-index: 21;
+  font-family: "Inter", sans-serif;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Position labels for global markers (above) */
+.heatmap-marker.global::after {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 4px;
+}
+
+/* Position labels for current markers (below) */
+.heatmap-marker.current::after {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 4px;
+}
+
+/* Handle edge cases */
+.heatmap-marker.left-edge::after {
+  left: 0;
+  transform: none;
+}
+
+.heatmap-marker.right-edge::after {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+/* Legend styling */
+.heatmap-legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  font-size: 12px;
+}
+
+.heatmap-legend-item {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.heatmap-legend-color {
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  border-radius: 2px;
+}
+
+/* Map difference toggle */
+.map-diff-toggle {
+  position: absolute;
+  bottom: 30px;
+  right: 16px;
+  left: auto;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 8px 12px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  box-sizing: border-box; /* Include padding in width calculation */
+  max-width: calc(100vw - 32px); /* Ensure it doesn't exceed viewport width */
+}
+
+.map-diff-toggle input {
+  margin-right: 8px;
+}
+
+.map-diff-info {
+  position: absolute;
+  bottom: 70px;
+  right: 16px;
+  left: auto;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 12px 16px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  max-width: 280px;
+  z-index: 1;
+  display: none;
+  box-sizing: border-box; /* Include padding in width calculation */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  line-height: 1.5;
+}
+
+.map-diff-info p {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #444;
+}
+
+.map-diff-info.visible {
+  display: block;
+}
+
+/* Custom checkbox styling */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+  background-color: #2196f3;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+}
+
+.data-source {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.data-source a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.data-source a:hover {
+  text-decoration: underline;
+}
+
+.data-description {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #444;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+/* Info panel list styling */
+.info-list {
+  padding-left: 20px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.5;
+}
+
+.info-list li {
+  margin-bottom: 8px;
+  font-family: "Inter", sans-serif;
+}
+
+/* Add tooltip styles */
+[data-tooltip] {
+  position: relative;
+  cursor: help;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  z-index: 10;
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Info icon styles */
+.info-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-color: #2196f3;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 16px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 5px;
+  cursor: help;
+  vertical-align: middle;
+}
+
+/* Add a simple header */
+.map-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.map-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.map-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.map-button {
+  background-color: #f5f7fa;
+  border: 1px solid #e0e4e8;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-button:hover {
+  background-color: #e0e4e8;
+}
+
+.map-button.active {
+  background-color: #2196f3;
+  color: white;
+  border-color: #2196f3;
+}
+
+/* Add icons to header buttons */
+#info-toggle::before {
+  content: "ℹ️";
+  margin-right: 6px;
+  font-size: 14px;
+}
+
+#stats-toggle::before {
+  content: "📊";
+  margin-right: 6px;
+  font-size: 14px;
+}
+
+#diff-view-toggle::before {
+  content: "🔄";
+  margin-right: 6px;
+  font-size: 14px;
+}
+
+#view-3d-toggle::before {
+  content: "🏔️";
+  margin-right: 6px;
+  font-size: 14px;
+}
+
+.heatmap-explanation {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 16px;
+  font-family: "Inter", sans-serif;
+  line-height: 1.4;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* Ensure it doesn't block interaction when hidden */
+}
+
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  pointer-events: auto; /* Re-enable interaction when shown */
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal.show .modal-content {
+  transform: translateY(0);
+}
+
+.modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e4e8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: white;
+  border-radius: 8px 8px 0 0;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  color: #666;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.modal-body {
+  padding: 20px;
+}
