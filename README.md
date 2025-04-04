@@ -17,7 +17,7 @@ Watch the tutorial video on the [Geobase YouTube channel](https://youtube.com/@g
    ```bash
    npm install -g serve
    ```
-4. Set up your Geobase credentials:
+4. Set up your [Geobase credentials](https://studio.geobase.app/):
    - Get your Geobase project reference and anon API key from your Geobase dashboard
    - Update the credentials in `js/map.js`:
      ```javascript
